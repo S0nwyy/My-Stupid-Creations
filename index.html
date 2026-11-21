@@ -20,9 +20,10 @@
   --muted-dim:#72767f;
   --primary:#5b69f0;
   --primary-hover:#4c5af0;
+  --input-bg:#0d1016;
 
   --radius-sm:10px;
-  --radius:16px;
+  --radius:14px;
   --radius-lg:24px;
   --radius-pill:999px;
 
@@ -240,11 +241,11 @@ nav a[href="#store"] svg{
 }
 .currency-select-wrap select {
   width: 100%; height: 100%; padding: 16px 12px; appearance: none;
-  background: #0d1016; border: 1px solid var(--border-strong); border-radius: var(--radius);
+  background: var(--input-bg); border: 1px solid var(--border-strong); border-radius: var(--radius);
   color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; outline: none;
   transition: border-color .3s, box-shadow .3s;
 }
-.currency-select-wrap select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(91,105,240,.2); }
+.currency-select-wrap select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(91,105,240,.15); }
 .currency-select-wrap::after {
   content: "▼"; position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
   font-size: 9px; color: var(--muted); pointer-events: none;
@@ -258,20 +259,20 @@ nav a[href="#store"] svg{
 }
 .amount-input-wrap input {
   width: 100%; padding: 16px 16px 16px 36px;
-  background: #0d1016; border: 1px solid var(--border-strong); border-radius: var(--radius);
+  background: var(--input-bg); border: 1px solid var(--border-strong); border-radius: var(--radius);
   color: #fff; font-size: 18px; font-weight: 700; outline: none; font-family: inherit;
   transition: border-color .3s, box-shadow .3s;
 }
-.amount-input-wrap input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(91,105,240,.2); }
+.amount-input-wrap input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(91,105,240,.15); }
 
 /* Slide to Pay */
 .slide-pay-container {
-  position: relative; height: 64px; background: #1a1c23; border-radius: var(--radius-pill);
+  position: relative; height: 64px; background: #14161d; border-radius: var(--radius-pill);
   border: 1px solid var(--border); padding: 4px; overflow: hidden; user-select: none;
-  box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.6);
   transition: opacity .3s;
 }
-.slide-pay-container.disabled { opacity: 0.5; pointer-events: none; }
+.slide-pay-container.disabled { opacity: 0.4; pointer-events: none; filter: grayscale(1); }
 .slide-pay-track {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
   font-size: 13px; font-weight: 600; color: #a0a5b5; pointer-events: none;
@@ -283,15 +284,15 @@ nav a[href="#store"] svg{
   cursor: grab; z-index: 2; box-shadow: 0 4px 12px rgba(91,105,240,.4);
   transition: transform .1s; touch-action: none;
 }
-.slide-pay-thumb:active { cursor: grabbing; }
+.slide-pay-thumb:active { cursor: grabbing; transform: scale(0.95); }
 .slide-pay-thumb svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .slide-pay-fill {
   position: absolute; top: 4px; left: 4px; height: 54px; width: 54px;
-  background: rgba(91,105,240,.2); border-radius: var(--radius-pill);
+  background: rgba(91,105,240,.15); border-radius: var(--radius-pill);
   z-index: 1; transition: width .1s; pointer-events: none;
 }
-.slide-pay-container.success .slide-pay-thumb { background: #22c55e; box-shadow: 0 4px 12px rgba(34,197,94,.4); }
-.slide-pay-container.success .slide-pay-fill { background: rgba(34,197,94,.2); }
+.slide-pay-container.success .slide-pay-thumb { background: #22c55e; box-shadow: 0 4px 16px rgba(34,197,94,.5); }
+.slide-pay-container.success .slide-pay-fill { background: rgba(34,197,94,.15); }
 
 /* Step 2: Payment Methods */
 .method-grid { display: grid; gap: 12px; }
@@ -302,40 +303,59 @@ nav a[href="#store"] svg{
 }
 .method-btn:hover { background: #1a1c26; border-color: var(--border-strong); transform: translateY(-2px); }
 .method-btn.active { border-color: var(--primary); background: rgba(91,105,240,.08); box-shadow: 0 0 0 1px var(--primary); }
-.method-icon { width: 40px; height: 40px; border-radius: 8px; background: rgba(255,255,255,.05); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.method-icon { 
+  width: 44px; height: 44px; border-radius: 8px; background: rgba(255,255,255,.05); 
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.method-icon svg { width: 24px; height: 24px; }
 .method-text h4 { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
 .method-text p { font-size: 12px; color: var(--muted); }
 
-/* Step 3: Card Details & PayPal */
-.card-form { display: grid; gap: 16px; }
-.form-group { display: flex; flex-direction: column; gap: 6px; }
-.form-group label { font-size: 12px; font-weight: 600; color: var(--muted); margin-left: 4px; }
+/* Step 3: Card Details */
+.card-form { display: grid; gap: 18px; }
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+.form-group label { 
+  font-size: 11px; font-weight: 700; color: var(--muted); 
+  margin-left: 4px; text-transform: uppercase; letter-spacing: 0.05em;
+}
 .card-input-wrap { position: relative; }
 .card-input-wrap input {
-  width: 100%; padding: 16px; padding-right: 70px;
-  background: #0d1016; border: 1px solid var(--border-strong); border-radius: var(--radius);
+  width: 100%; padding: 16px; padding-right: 80px;
+  background: var(--input-bg); border: 1px solid var(--border-strong); border-radius: var(--radius);
+  color: #fff; font-size: 16px; font-family: inherit; outline: none;
+  transition: border-color .3s, box-shadow .3s;
+  letter-spacing: 0.5px;
+}
+.card-input-wrap input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(91,105,240,.15); }
+.card-logo {
+  position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+  height: 24px; display: flex; align-items: center;
+  opacity: 0; transition: opacity .3s; pointer-events: none;
+}
+.card-logo.show { opacity: 1; }
+.card-logo svg { height: 100%; width: auto; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+/* Fixed styling for standard inputs inside the form */
+.card-form input:not([type="hidden"]) {
+  width: 100%; padding: 16px;
+  background: var(--input-bg); border: 1px solid var(--border-strong); border-radius: var(--radius);
   color: #fff; font-size: 15px; font-family: inherit; outline: none;
   transition: border-color .3s, box-shadow .3s;
 }
-.card-input-wrap input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(91,105,240,.2); }
-.card-logo {
-  position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
-  font-size: 12px; font-weight: 800; color: #fff; letter-spacing: 0.5px;
-  opacity: 0; transition: opacity .3s;
-}
-.card-logo.show { opacity: 1; }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.card-form input:not([type="hidden"]):focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(91,105,240,.15); }
+
 .btn-continue {
   width: 100%; padding: 16px; background: var(--primary); color: #fff; border: none;
   border-radius: var(--radius); font-size: 15px; font-weight: 700; cursor: pointer;
   transition: background .3s, transform .2s, opacity .3s; margin-top: 8px;
 }
 .btn-continue:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); }
-.btn-continue:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-continue:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
 /* PayPal specific styling */
-.paypal-logo { font-size: 38px; font-weight: 800; color: #00457C; margin-bottom: 8px; letter-spacing: -1px; font-family: sans-serif; }
-.paypal-logo span { color: #0070BA; }
+.paypal-brand { display: flex; justify-content: center; margin-bottom: 12px; }
+.paypal-brand svg { height: 40px; width: auto; }
 
 /* Toast */
 .toast {
@@ -364,7 +384,7 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
   nav { width:100%; justify-content:flex-start; }
   .view { padding:50px 6% 70px; }
   .donate-container { padding: 24px; }
-  .form-row { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; gap: 18px; }
 }
 </style>
 </head>
@@ -423,9 +443,7 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
         <div class="donate-step active" id="donate-step-1">
           <div class="input-row">
             <div class="currency-select-wrap">
-              <select id="currency-select">
-                <!-- Options populated by JS -->
-              </select>
+              <select id="currency-select"></select>
             </div>
             <div class="amount-input-wrap">
               <span class="symbol" id="currency-symbol">$</span>
@@ -446,14 +464,23 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
         <div class="donate-step" id="donate-step-2">
           <div class="method-grid">
             <div class="method-btn active" data-method="card">
-              <div class="method-icon">💳</div>
+              <div class="method-icon">
+                <!-- Credit Card Icon -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+              </div>
               <div class="method-text">
                 <h4>Credit / Debit Card</h4>
                 <p>Visa, Mastercard, Amex</p>
               </div>
             </div>
             <div class="method-btn" data-method="paypal">
-              <div class="method-icon" style="color: #00457C; font-weight: 800; font-family: sans-serif; font-size: 18px;">P</div>
+              <div class="method-icon" style="background: transparent;">
+                <!-- Real PayPal 'P' Icon -->
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.144 21.336h2.865c1.392 0 2.462-.847 2.861-2.159l.488-1.666c.278-.95.843-1.483 1.827-1.483h2.05c2.833 0 4.82-1.828 5.338-4.57.67-3.54-2.256-5.458-5.592-5.458h-4.66c-.454 0-.83.32-.917.766l-2.046 10.553c-.12.617-.633 1.037-1.259 1.037H6.405l.739-3.854z" fill="#003087"/>
+                  <path d="M8.665 10.968h3.355c2.306 0 3.661 1.165 3.219 3.17-.435 1.975-1.954 2.835-3.917 2.835h-1.636l-.662 3.427c-.073.376-.399.648-.782.648H6.379l.734-3.781.832-4.29c.08-.413.442-.71.861-.71h.859z" fill="#009cde"/>
+                </svg>
+              </div>
               <div class="method-text">
                 <h4>PayPal</h4>
                 <p>Fast and secure checkout</p>
@@ -496,11 +523,23 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
         <!-- STEP 3B: PayPal -->
         <div class="donate-step" id="donate-step-paypal">
           <div style="text-align: center; padding: 10px 0;">
-            <div class="paypal-logo">Pay<span>Pal</span></div>
-            <p style="font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6;">
+            <div class="paypal-brand">
+              <!-- Real PayPal Full Wordmark -->
+              <svg viewBox="0 0 140 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M25.7 14c-.2 2.1-1.9 3.7-4.2 3.7h-1.9l.9-4.6h2.1c1.9 0 3.3 1.1 3.1 2.9z" fill="#003087"/>
+                <path d="M28.5 14.3c-.3 3.8-3 5.8-6.1 5.8H20l-1.1 5.7h-3.6l2.1-11.1c.1-.5.5-.8.9-.8h4.5c3 0 5.2 1.6 5.7 4.3.1.5.1 1 .1 1.6-.1.6-.1 1.2-.1 1.8v-.2c-.2.1-.2.3-.2.5l-.2.8c0 .3-.1.6-.1.8v.2c0 .1 0 .2-.1.2v.3c0 .1 0 .2-.1.2l-.1.9c0 .3-.1.5-.2.7l-.7 3.8c-.1.6-.6 1-1.2 1h-2.1l.9-4.9h3.2z" fill="#009cde"/>
+                <path d="M46 16.2l-1 5h-3.4l3.6-18h6.3c4.5 0 7.2 2.4 6.4 6.4-.9 4.5-4.3 6.7-8.8 6.7H46zm1.1-5.9l-.8 4.2h1.6c2 0 3.5-1.3 3.9-3.3.4-1.9-.8-2.8-2.8-2.8h-1.9v1.9z" fill="#003087"/>
+                <path d="M61.5 12.4c3.1 0 5.1 1.3 4.8 3.2l-1.6 7.8c-.1.5-.6.8-1.1.8h-2.1l.2-1.1c-1.2 1.1-2.7 1.6-4.3 1.6-3 0-5-1.8-4.6-4.6.4-3 3.4-4.9 7.2-4.9 1.1 0 2.1.2 2.9.5l.1-.7c.2-1.2-.6-1.9-2.1-1.9-1.3 0-2.6.4-3.6.9l-.4-2.4c1.4-.6 3-1 4.6-1v.8zm-1.5 8.7c1.8 0 3.1-.7 3.5-2.3l.2-1c-.6-.2-1.4-.3-2.2-.3-1.8 0-3.3.7-3.5 2-.2 1.1.7 1.6 2 1.6z" fill="#003087"/>
+                <path d="M80.6 12.6h3.7L78.4 31.5c-1.5 3.2-3.3 4.7-6.2 4.7-1 0-2-.2-2.7-.5l.6-2.8c.6.2 1.2.3 1.8.3 1.3 0 2.3-.7 3-2l.6-1.3-2.6-17.3h3.8l1.2 10.1h.2l5.5-10.1z" fill="#003087"/>
+                <path d="M95.4 16.2l-1 5h-3.4l3.6-18h6.3c4.5 0 7.2 2.4 6.4 6.4-.9 4.5-4.3 6.7-8.8 6.7h-1.9zm1.1-5.9l-.8 4.2h1.6c2 0 3.5-1.3 3.9-3.3.4-1.9-.8-2.8-2.8-2.8h-1.9v1.9z" fill="#009cde"/>
+                <path d="M110.9 12.4c3.1 0 5.1 1.3 4.8 3.2l-1.6 7.8c-.1.5-.6.8-1.1.8h-2.1l.2-1.1c-1.2 1.1-2.7 1.6-4.3 1.6-3 0-5-1.8-4.6-4.6.4-3 3.4-4.9 7.2-4.9 1.1 0 2.1.2 2.9.5l.1-.7c.2-1.2-.6-1.9-2.1-1.9-1.3 0-2.6.4-3.6.9l-.4-2.4c1.4-.6 3-1 4.6-1v.8zm-1.5 8.7c1.8 0 3.1-.7 3.5-2.3l.2-1c-.6-.2-1.4-.3-2.2-.3-1.8 0-3.3.7-3.5 2-.2 1.1.7 1.6 2 1.6z" fill="#009cde"/>
+                <path d="M130 12.6h3.7L127.8 31.5c-1.5 3.2-3.3 4.7-6.2 4.7-1 0-2-.2-2.7-.5l.6-2.8c.6.2 1.2.3 1.8.3 1.3 0 2.3-.7 3-2l.6-1.3-2.6-17.3h3.8l1.2 10.1h.2l5.5-10.1z" fill="#009cde"/>
+              </svg>
+            </div>
+            <p style="font-size: 14px; color: var(--muted); margin-bottom: 28px; line-height: 1.6;">
               You will be redirected to PayPal to complete your donation of <strong id="paypal-amount-display" style="color: #fff;"></strong>.
             </p>
-            <button class="btn-continue" id="btn-paypal-connect" style="background: #0070BA;">Log in to PayPal</button>
+            <button class="btn-continue" id="btn-paypal-connect" style="background: #ffc439; color: #003087; font-weight: 800; font-size: 16px; text-shadow: none;">Pay with PayPal</button>
             <button class="btn secondary" id="btn-paypal-back" style="width: 100%; margin-top: 12px;">Back</button>
           </div>
         </div>
@@ -628,7 +667,7 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
       }, 500);
 
       currentView = name;
-    }, 300); // Matches CSS transition time
+    }, 300);
   }
 
   window.addEventListener('hashchange', render);
@@ -651,7 +690,6 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
   let currentSymbol = '$';
   let rawAmount = 0;
 
-  // Auto-detect currency
   async function detectCurrency() {
     try {
       const res = await fetch('https://ipapi.co/json/');
@@ -673,7 +711,6 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
     updateAmountUI();
   }
 
-  // Populate currencies
   const currencies = [
     { code: 'USD', symbol: '$' }, { code: 'EUR', symbol: '€' },
     { code: 'GBP', symbol: '£' }, { code: 'INR', symbol: '₹' },
@@ -694,7 +731,6 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
     updateAmountUI();
   });
 
-  // Amount formatting
   amountInput.addEventListener('input', (e) => {
     let val = e.target.value.replace(/[^0-9.]/g, '');
     const parts = val.split('.');
@@ -721,7 +757,7 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
   }
 
   /* =========================================
-     3. SLIDE TO PAY LOGIC (FIXED)
+     3. SLIDE TO PAY LOGIC
   ========================================= */
   const slideThumb = document.getElementById('slide-thumb');
   const slideFill = document.querySelector('.slide-pay-fill');
@@ -741,10 +777,9 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
     isDragging = true;
     startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
     
-    // Recalculate maxSlide dynamically every time drag starts to prevent layout bugs
     const rect = slideContainer.getBoundingClientRect();
     const thumbRect = slideThumb.getBoundingClientRect();
-    maxSlide = rect.width - thumbRect.width - 8; // 8px accounts for 4px padding on each side
+    maxSlide = rect.width - thumbRect.width - 8;
     
     slideThumb.style.transition = 'none';
     slideFill.style.transition = 'none';
@@ -761,11 +796,10 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
     const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
     let delta = clientX - startX;
     
-    // Clamp between 0 and maxSlide
     currentX = Math.max(0, Math.min(delta, maxSlide));
     
     slideThumb.style.transform = `translateX(${currentX}px)`;
-    slideFill.style.width = `${currentX + 54}px`; // 54px is the width of the thumb
+    slideFill.style.width = `${currentX + 54}px`;
     
     if (currentX >= maxSlide * 0.95) {
       completeSlide();
@@ -780,7 +814,6 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
     isDragging = false;
     
     if (currentX < maxSlide * 0.95) {
-      // Snap back to start
       slideThumb.style.transition = 'transform .3s cubic-bezier(0.22, 1, 0.36, 1)';
       slideFill.style.transition = 'width .3s cubic-bezier(0.22, 1, 0.36, 1)';
       slideThumb.style.transform = `translateX(0)`;
@@ -823,7 +856,7 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
   }
 
   /* =========================================
-     4. PAYMENT ROUTING (STEP 2 -> 3)
+     4. PAYMENT ROUTING
   ========================================= */
   document.querySelectorAll('.method-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -861,35 +894,45 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
   });
 
   /* =========================================
-     5. CARD AUTO-DETECTION & VALIDATION
+     5. CARD DETECTION & VALIDATION
   ========================================= */
   const cardNumberInput = document.getElementById('card-number');
   const cardLogo = document.getElementById('card-logo');
   const cardExpiry = document.getElementById('card-expiry');
   const btnPay = document.getElementById('btn-pay');
 
+  // SVG Icons for Cards
+  const cardSvgs = {
+    visa: `<svg viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="4" fill="#fff"/><path d="M15.4 16.5l1.7-9.2h2.7l-1.7 9.2h-2.7zm11.6-8.9c-.6-.2-1.5-.5-2.6-.5-2.8 0-4.8 1.5-4.8 3.8 0 1.6 1.4 2.5 2.4 3 .8.4 1.1.6 1.1 1.1 0 .5-.4.8-1.1.8-1.1 0-2.2-.4-3-.8l-.4 2.3c.8.4 2.1.7 3.3.7 3 0 4.9-1.5 4.9-3.9 0-1.7-1.2-2.6-2.3-3.1-.8-.4-1.2-.7-1.2-1.1 0-.4.4-.7 1-.7.9 0 1.8.3 2.4.6l.6-2.2zm-14.9-.3h-2.1c-.5 0-1 .3-1.2.8l-4.3 8.4h2.8l.6-1.6h3.4l.3 1.6h2.5l-2-9.2zm-3.1 5.9l1.1-3 .6 3h-1.7zm21.1-5.9h2.4l-1.9 9.2h-2.4l1.9-9.2z" fill="#1A1F71"/></svg>`,
+    mastercard: `<svg viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="4" fill="#fff"/><circle cx="15" cy="12" r="7" fill="#EB001B"/><circle cx="23" cy="12" r="7" fill="#F79E1B" fill-opacity="0.8"/></svg>`,
+    amex: `<svg viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="4" fill="#002663"/><path d="M10.8 15.6l-1-2.4h-2l-1 2.4H4.6l3.4-8.6h2.4l3.4 8.6h-2.4l-.6-1.4zm-1.6-4.2l-.6-1.6-.6 1.6h1.2zm6.8-4.4v8.6h-2.4l-3.4-5.8v5.8H8v-8.6h2.4l3.4 5.8v-5.8h2.2zm2.4 0h3.4v1.8h-3.4v1.6h3.2v1.8h-3.2v1.8h3.4v1.8h-5.8v-8.6h2.4zm9.8 8.6h-2.4l-1.8-2.6-1.8 2.6h-2.4l3-4.4-3-4.2h2.4l1.8 2.4 1.8-2.4h2.4l-3 4.2 3 4.4z" fill="#fff"/></svg>`,
+    discover: `<svg viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="4" fill="#fff"/><path d="M17.5 12c0 1.9-1.5 3.5-3.5 3.5H11v-7h3c2 0 3.5 1.6 3.5 3.5zm-3.5 2h-1.5v-4h1.5c1.1 0 2 .9 2 2s-.9 2-2 2z" fill="#231F20"/><circle cx="27" cy="12" r="4" fill="#F27712"/></svg>`
+  };
+
   cardNumberInput.addEventListener('input', (e) => {
     let val = e.target.value.replace(/\D/g, '');
     let type = '';
     
-    if (/^4/.test(val)) { type = 'Visa'; cardLogo.style.color = '#1a1f71'; }
-    else if (/^5[1-5]/.test(val) || /^2[2-7]/.test(val)) { type = 'Mastercard'; cardLogo.style.color = '#eb001b'; }
-    else if (/^3[47]/.test(val)) { type = 'Amex'; cardLogo.style.color = '#002663'; }
-    else if (/^6(?:011|5)/.test(val)) { type = 'Discover'; cardLogo.style.color = '#ff6000'; }
-    else { cardLogo.textContent = ''; cardLogo.classList.remove('show'); }
-
-    if (type) {
-      cardLogo.textContent = type;
+    if (/^4/.test(val)) { type = 'visa'; }
+    else if (/^5[1-5]/.test(val) || /^2[2-7]/.test(val)) { type = 'mastercard'; }
+    else if (/^3[47]/.test(val)) { type = 'amex'; }
+    else if (/^6(?:011|5)/.test(val)) { type = 'discover'; }
+    
+    if (type && cardSvgs[type]) {
+      cardLogo.innerHTML = cardSvgs[type];
       cardLogo.classList.add('show');
+    } else {
+      cardLogo.innerHTML = '';
+      cardLogo.classList.remove('show');
     }
 
-    if (type === 'Amex') {
+    if (type === 'amex') {
       val = val.replace(/(\d{4})(\d{6})(\d{5})/, '$1 $2 $3');
     } else {
       val = val.replace(/(\d{4})(?=\d)/g, '$1 ');
     }
     
-    e.target.value = val.substring(0, type === 'Amex' ? 17 : 19);
+    e.target.value = val.substring(0, type === 'amex' ? 17 : 19);
     validateCard();
   });
 
@@ -902,7 +945,6 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
     validateCard();
   });
 
-  // Bind validation to inputs
   ['input', 'change', 'blur'].forEach(evt => {
     document.getElementById('card-cvc').addEventListener(evt, validateCard);
     document.getElementById('card-name').addEventListener(evt, validateCard);
@@ -919,10 +961,8 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
     
     if (isValidLength && exp.length === 7 && cvc.length >= 3 && name.length > 2) {
       btnPay.disabled = false;
-      btnPay.style.opacity = '1';
     } else {
       btnPay.disabled = true;
-      btnPay.style.opacity = '0.5';
     }
   }
 
@@ -953,31 +993,27 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
       showToast('Donation successful! Thank you.');
       setTimeout(() => {
         btn.disabled = false;
-        btn.textContent = 'Log in to PayPal';
+        btn.textContent = 'Pay with PayPal';
         resetDonationFlow();
       }, 2000);
     }, 1500);
   });
 
   function resetDonationFlow() {
-    // Reset steps
     step3.classList.remove('active');
     paypalStep.classList.remove('active');
     step2.classList.remove('active');
     step1.classList.add('active');
     
-    // Reset state
     amountInput.value = '';
     rawAmount = 0;
     updateAmountUI();
     resetSlide();
     
-    // Reset forms
     document.getElementById('card-form').reset();
+    cardLogo.innerHTML = '';
     cardLogo.classList.remove('show');
-    cardLogo.textContent = '';
     btnPay.disabled = true;
-    btnPay.style.opacity = '0.5';
   }
 
   /* =========================================
@@ -992,14 +1028,12 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
     toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
   }
 
-  // Download feedback
   document.querySelectorAll('.js-download').forEach(link => {
     link.addEventListener('click', () => {
       showToast('Download starting — ' + (link.dataset.file || 'file'));
     });
   });
 
-  // Scroll progress
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
     document.querySelector('header').classList.toggle('scrolled', y > 10);
