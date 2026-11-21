@@ -299,6 +299,22 @@ section{padding:96px 8%;scroll-margin-top:90px}
 
 #download,#contact{background:var(--bg-soft)}
 
+/* ---------- download meta row ---------- */
+.dl-meta{
+  display:flex;align-items:center;justify-content:center;
+  flex-wrap:wrap;gap:8px 10px;
+  margin:20px auto 0;
+  font-size:12px;color:var(--muted-dim);
+}
+.dl-meta span{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:5px 12px;
+  border-radius:var(--radius-pill);
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.025);
+}
+.dl-meta .dot{width:5px;height:5px;border-radius:50%;background:#8f97b5}
+
 /* ---------- forms ---------- */
 form{max-width:460px;margin:0 auto;display:grid;gap:12px}
 input,textarea{
@@ -348,6 +364,28 @@ footer a{
 }
 footer a:hover{color:var(--text);background:rgba(255,255,255,.055)}
 
+/* ---------- toast ---------- */
+.toast{
+  position:fixed;left:50%;bottom:26px;z-index:200;
+  transform:translate(-50%,18px);
+  opacity:0;pointer-events:none;
+  display:flex;align-items:center;gap:10px;
+  padding:12px 22px;
+  border-radius:var(--radius-pill);
+  border:1px solid var(--border-strong);
+  background:rgba(18,21,28,.92);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:var(--shadow);
+  font-size:13px;font-weight:600;color:#e9eaef;
+  transition:opacity .35s var(--ease),transform .35s var(--ease);
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast::before{
+  content:"";width:7px;height:7px;border-radius:50%;
+  background:#9fe6b8;box-shadow:0 0 12px rgba(159,230,184,.85);
+}
+
 /* ---------- scroll reveal ---------- */
 [data-reveal]{
   opacity:0;
@@ -375,7 +413,7 @@ footer a:hover{color:var(--text);background:rgba(255,255,255,.055)}
   .hero h1{letter-spacing:-.03em}
   .hero p{font-size:14px}
   .hero .actions .btn{flex:1 1 auto}
-  section{padding:68px 6%}
+  section{padding:68px 6%;scroll-margin-top:110px}
   .card{padding:26px;border-radius:20px}
   .wide{padding:34px 22px;border-radius:20px}
   footer{flex-direction:column;align-items:flex-start;padding:30px 6%}
@@ -398,7 +436,7 @@ footer a:hover{color:var(--text);background:rgba(255,255,255,.055)}
 <div class="progress" aria-hidden="true"></div>
 
 <header>
-  <a href="#" class="logo">MY STUPID <span>CREATIONS.</span></a>
+  <a href="#top" class="logo">MY STUPID <span>CREATIONS.</span></a>
   <nav>
     <a href="#store">Store</a>
     <a href="#donate">Donate</a>
@@ -407,7 +445,7 @@ footer a:hover{color:var(--text);background:rgba(255,255,255,.055)}
   </nav>
 </header>
 
-<main>
+<main id="top">
   <div class="hero">
     <div class="tag">Independent Software &amp; Projects</div>
     <h1>My Stupid<br><span>Creations.</span></h1>
@@ -452,12 +490,25 @@ footer a:hover{color:var(--text);background:rgba(255,255,255,.055)}
   <section id="download">
     <div class="section-title" data-reveal>
       <h2>Get the app</h2>
-      <p>Download our latest application.</p>
+      <p>Download the latest Windows build and start exploring.</p>
     </div>
     <div class="wide" data-reveal>
       <h2>My Stupid Creations App</h2>
       <p>Get the latest version of our application and explore everything it has to offer.</p>
-      <a href="#contact" class="btn secondary">Download coming soon</a>
+
+      <a
+        class="btn js-download"
+        href="https://drive.google.com/uc?export=download&id=1dI3NzX3qM3ubrUSnLnPJefA7sakYW2GX"
+        rel="noopener"
+        data-file="My Stupid Creations App">
+        Download for Windows
+      </a>
+
+      <div class="dl-meta">
+        <span><i class="dot"></i>.exe installer</span>
+        <span><i class="dot"></i>Latest version</span>
+        <span><i class="dot"></i>Hosted on Google Drive</span>
+      </div>
     </div>
   </section>
 
@@ -499,15 +550,28 @@ footer a:hover{color:var(--text);background:rgba(255,255,255,.055)}
   </div>
 </footer>
 
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
 (function () {
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* Sticky header state */
   var header = document.querySelector('header');
-  /* Scroll progress bar */
   var bar = document.querySelector('.progress');
+  var toast = document.getElementById('toast');
+  var toastTimer;
 
+  function showToast(msg) {
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toast.classList.remove('show');
+    }, 3200);
+  }
+
+  /* ---------- Sticky header + scroll progress ---------- */
   function onScroll() {
     var y = window.pageYOffset || document.documentElement.scrollTop;
     header.classList.toggle('scrolled', y > 10);
@@ -520,13 +584,64 @@ footer a:hover{color:var(--text);background:rgba(255,255,255,.055)}
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* Scroll reveal with automatic stagger */
+  /* ---------- Smooth in-page scrolling with header offset ---------- */
+  function headerOffset() {
+    return (header ? header.offsetHeight : 0) + 18;
+  }
+
+  function smoothScrollTo(target) {
+    var top = target.getBoundingClientRect().top +
+              (window.pageYOffset || document.documentElement.scrollTop) -
+              headerOffset();
+
+    if (top < 0) top = 0;
+
+    if (reduceMotion) {
+      window.scrollTo(0, top);
+    } else {
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var hash = link.getAttribute('href');
+
+      if (!hash || hash === '#') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+        return;
+      }
+
+      var target = document.querySelector(hash);
+      if (!target) return;
+
+      e.preventDefault();
+      smoothScrollTo(target);
+
+      // Keep the URL in sync without causing a jump
+      if (history.replaceState) {
+        history.replaceState(null, '', hash);
+      } else {
+        location.hash = hash;
+      }
+    });
+  });
+
+  /* ---------- Download feedback ---------- */
+  document.querySelectorAll('.js-download').forEach(function (link) {
+    link.addEventListener('click', function () {
+      var name = link.getAttribute('data-file') || 'file';
+      showToast('Download starting — ' + name);
+    });
+  });
+
+  /* ---------- Scroll reveal with automatic stagger ---------- */
   var revealEls = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
 
   if (reduceMotion || !('IntersectionObserver' in window)) {
     revealEls.forEach(function (el) { el.classList.add('is-visible'); });
   } else {
-    // Stagger siblings that share the same parent
     var groups = new Map();
     revealEls.forEach(function (el) {
       var parent = el.parentElement;
