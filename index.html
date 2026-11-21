@@ -220,6 +220,18 @@ nav a[href="#store"] svg{
 .wide h2{font-size:clamp(21px,2.6vw,27px);font-weight:800;letter-spacing:-.03em}
 .wide p{ color:var(--muted);font-size:14px;line-height:1.85; margin:15px auto 26px;max-width:540px; }
 
+/* ---------- Unified Input Styles (Donation & License) ---------- */
+.form-input {
+  width: 100%; padding: 16px;
+  background: var(--input-bg); border: 1px solid var(--border-strong); border-radius: var(--radius);
+  color: #fff; font-size: 15px; font-family: inherit; outline: none;
+  transition: border-color .3s, box-shadow .3s;
+  box-sizing: border-box;
+}
+.form-input::placeholder { color: #61656f; }
+.form-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(91,105,240,.15); }
+.form-input:disabled { opacity: 0.6; cursor: not-allowed; background: #090a0f; border-color: var(--border); }
+
 /* ---------- DONATION WIZARD UI ---------- */
 .donate-container {
   max-width: 520px; margin: 0 auto; background: #101319;
@@ -320,13 +332,9 @@ nav a[href="#store"] svg{
 }
 .card-input-wrap { position: relative; }
 .card-input-wrap input {
-  width: 100%; padding: 16px; padding-right: 80px;
-  background: var(--input-bg); border: 1px solid var(--border-strong); border-radius: var(--radius);
-  color: #fff; font-size: 16px; font-family: inherit; outline: none;
-  transition: border-color .3s, box-shadow .3s;
+  padding-right: 80px;
   letter-spacing: 0.5px;
 }
-.card-input-wrap input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(91,105,240,.15); }
 .card-logo {
   position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
   height: 24px; display: flex; align-items: center;
@@ -336,14 +344,6 @@ nav a[href="#store"] svg{
 .card-logo svg { height: 100%; width: auto; }
 
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-/* Fixed styling for standard inputs inside the form */
-.card-form input:not([type="hidden"]) {
-  width: 100%; padding: 16px;
-  background: var(--input-bg); border: 1px solid var(--border-strong); border-radius: var(--radius);
-  color: #fff; font-size: 15px; font-family: inherit; outline: none;
-  transition: border-color .3s, box-shadow .3s;
-}
-.card-form input:not([type="hidden"]):focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(91,105,240,.15); }
 
 .btn-continue {
   width: 100%; padding: 16px; background: var(--primary); color: #fff; border: none;
@@ -356,6 +356,24 @@ nav a[href="#store"] svg{
 /* PayPal specific styling */
 .paypal-brand { display: flex; justify-content: center; margin-bottom: 12px; }
 .paypal-brand svg { height: 40px; width: auto; }
+
+/* Contact mail chip */
+.mail{
+  display:inline-block;
+  margin-top:10px;
+  padding:14px 28px;
+  border-radius:var(--radius-pill);
+  border:1px solid var(--border-strong);
+  background:rgba(255,255,255,.035);
+  font-size:14px; font-weight:700; letter-spacing:-.01em;
+  transition:background .3s var(--ease-soft),border-color .3s var(--ease-soft),transform .3s var(--ease),box-shadow .3s var(--ease);
+}
+.mail:hover{
+  background:rgba(255,255,255,.075); 
+  border-color:#4a5163; 
+  transform:translateY(-2px);
+  box-shadow:0 10px 24px -10px rgba(0,0,0,.6);
+}
 
 /* Toast */
 .toast {
@@ -465,7 +483,6 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
           <div class="method-grid">
             <div class="method-btn active" data-method="card">
               <div class="method-icon">
-                <!-- Credit Card Icon -->
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
               </div>
               <div class="method-text">
@@ -475,7 +492,6 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
             </div>
             <div class="method-btn" data-method="paypal">
               <div class="method-icon" style="background: transparent;">
-                <!-- Real PayPal 'P' Icon -->
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M7.144 21.336h2.865c1.392 0 2.462-.847 2.861-2.159l.488-1.666c.278-.95.843-1.483 1.827-1.483h2.05c2.833 0 4.82-1.828 5.338-4.57.67-3.54-2.256-5.458-5.592-5.458h-4.66c-.454 0-.83.32-.917.766l-2.046 10.553c-.12.617-.633 1.037-1.259 1.037H6.405l.739-3.854z" fill="#003087"/>
                   <path d="M8.665 10.968h3.355c2.306 0 3.661 1.165 3.219 3.17-.435 1.975-1.954 2.835-3.917 2.835h-1.636l-.662 3.427c-.073.376-.399.648-.782.648H6.379l.734-3.781.832-4.29c.08-.413.442-.71.861-.71h.859z" fill="#009cde"/>
@@ -497,23 +513,23 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
             <div class="form-group">
               <label>Card Number</label>
               <div class="card-input-wrap">
-                <input type="text" id="card-number" placeholder="0000 0000 0000 0000" maxlength="19" autocomplete="cc-number">
+                <input type="text" id="card-number" class="form-input" placeholder="0000 0000 0000 0000" maxlength="19" autocomplete="cc-number">
                 <div class="card-logo" id="card-logo"></div>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label>Expiry Date</label>
-                <input type="text" id="card-expiry" placeholder="MM / YY" maxlength="7" autocomplete="cc-exp">
+                <input type="text" id="card-expiry" class="form-input" placeholder="MM / YY" maxlength="7" autocomplete="cc-exp">
               </div>
               <div class="form-group">
                 <label>CVC</label>
-                <input type="text" id="card-cvc" placeholder="123" maxlength="4" autocomplete="cc-csc">
+                <input type="text" id="card-cvc" class="form-input" placeholder="123" maxlength="4" autocomplete="cc-csc">
               </div>
             </div>
             <div class="form-group">
               <label>Name on Card</label>
-              <input type="text" id="card-name" placeholder="John Doe" autocomplete="cc-name">
+              <input type="text" id="card-name" class="form-input" placeholder="John Doe" autocomplete="cc-name">
             </div>
             <button type="button" class="btn-continue" id="btn-pay" disabled>Continue</button>
             <button type="button" class="btn secondary" id="btn-step3-back" style="width: 100%; margin-top: 12px;">Back</button>
@@ -524,7 +540,6 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
         <div class="donate-step" id="donate-step-paypal">
           <div style="text-align: center; padding: 10px 0;">
             <div class="paypal-brand">
-              <!-- Real PayPal Full Wordmark -->
               <svg viewBox="0 0 140 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M25.7 14c-.2 2.1-1.9 3.7-4.2 3.7h-1.9l.9-4.6h2.1c1.9 0 3.3 1.1 3.1 2.9z" fill="#003087"/>
                 <path d="M28.5 14.3c-.3 3.8-3 5.8-6.1 5.8H20l-1.1 5.7h-3.6l2.1-11.1c.1-.5.5-.8.9-.8h4.5c3 0 5.2 1.6 5.7 4.3.1.5.1 1 .1 1.6-.1.6-.1 1.2-.1 1.8v-.2c-.2.1-.2.3-.2.5l-.2.8c0 .3-.1.6-.1.8v.2c0 .1 0 .2-.1.2v.3c0 .1 0 .2-.1.2l-.1.9c0 .3-.1.5-.2.7l-.7 3.8c-.1.6-.6 1-1.2 1h-2.1l.9-4.9h3.2z" fill="#009cde"/>
@@ -574,10 +589,11 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
       <div class="wide" data-reveal>
         <h2>License Activation</h2>
         <p>You'll be able to enter your license key here once the secure activation system is ready.</p>
-        <form onsubmit="event.preventDefault();alert('License activation is not available yet.');">
-          <input type="text" placeholder="Enter your license key" disabled>
-          <button class="btn secondary" type="submit" disabled>Activate license</button>
+        <form onsubmit="event.preventDefault();alert('License activation is not available yet.');" style="max-width: 460px; margin: 0 auto;">
+          <input type="text" class="form-input" placeholder="Enter your license key" disabled>
+          <button class="btn secondary" type="submit" disabled style="margin-top: 16px; width: 100%;">Activate license</button>
         </form>
+        <p class="notice" style="font-size:12px;color:var(--muted-dim);margin-top:20px;">License activation is not connected yet. Your key will not be checked or stored by this page.</p>
       </div>
     </div>
   </section>
@@ -591,8 +607,8 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
       </div>
       <div class="wide" data-reveal>
         <h2>Contact us</h2>
-        <p>For support, questions or bug reports, contact us at:</p>
-        <a href="mailto:YOUR_EMAIL_HERE" class="mail">YOUR_EMAIL_HERE</a>
+        <p>For support, questions or bug reports, please visit our files page:</p>
+        <a href="https://sites.google.com/view/my-stupid-creations/files" class="mail" target="_blank" rel="noopener">My Stupid Creations Files</a>
       </div>
     </div>
   </section>
@@ -901,7 +917,6 @@ footer a:hover { color:var(--text); background:rgba(255,255,255,.055); }
   const cardExpiry = document.getElementById('card-expiry');
   const btnPay = document.getElementById('btn-pay');
 
-  // SVG Icons for Cards
   const cardSvgs = {
     visa: `<svg viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="4" fill="#fff"/><path d="M15.4 16.5l1.7-9.2h2.7l-1.7 9.2h-2.7zm11.6-8.9c-.6-.2-1.5-.5-2.6-.5-2.8 0-4.8 1.5-4.8 3.8 0 1.6 1.4 2.5 2.4 3 .8.4 1.1.6 1.1 1.1 0 .5-.4.8-1.1.8-1.1 0-2.2-.4-3-.8l-.4 2.3c.8.4 2.1.7 3.3.7 3 0 4.9-1.5 4.9-3.9 0-1.7-1.2-2.6-2.3-3.1-.8-.4-1.2-.7-1.2-1.1 0-.4.4-.7 1-.7.9 0 1.8.3 2.4.6l.6-2.2zm-14.9-.3h-2.1c-.5 0-1 .3-1.2.8l-4.3 8.4h2.8l.6-1.6h3.4l.3 1.6h2.5l-2-9.2zm-3.1 5.9l1.1-3 .6 3h-1.7zm21.1-5.9h2.4l-1.9 9.2h-2.4l1.9-9.2z" fill="#1A1F71"/></svg>`,
     mastercard: `<svg viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="4" fill="#fff"/><circle cx="15" cy="12" r="7" fill="#EB001B"/><circle cx="23" cy="12" r="7" fill="#F79E1B" fill-opacity="0.8"/></svg>`,
